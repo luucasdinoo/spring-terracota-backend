@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "craftsman")
 @NoArgsConstructor @AllArgsConstructor
-public class Customer implements Serializable {
+public class Craftsman implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
