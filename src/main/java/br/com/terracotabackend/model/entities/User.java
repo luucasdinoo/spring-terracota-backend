@@ -2,17 +2,24 @@ package br.com.terracotabackend.model.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
 @AllArgsConstructor @NoArgsConstructor
-public class User implements Serializable {
+@Getter
+public class User implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +31,6 @@ public class User implements Serializable {
     @Column(unique = true, nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private boolean enabled = true;
-
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -37,12 +41,35 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserRole role;
 
-    public enum Role{
-        ROLE_CUSTOMER,
-        ROLE_CRAFTSMAN,
-        ROLE_COMPANY,
-        ROLE_ADMIN
+    public User(String email, String password, UserRole role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.role == UserRole.ROLE_ADMIN)
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        if(this.role == UserRole.ROLE_CUSTOMER)
+            return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+        if(this.role == UserRole.ROLE_CRAFTSMAN)
+            return List.of(new SimpleGrantedAuthority("ROLE_CRAFTSMAN"));
+        if(this.role == UserRole.ROLE_COMPANY)
+            return List.of(new SimpleGrantedAuthority("ROLE_COMPANY"));
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
 }

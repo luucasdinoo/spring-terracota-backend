@@ -1,4 +1,4 @@
-package br.com.terracotabackend.config;
+package br.com.terracotabackend.infra.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

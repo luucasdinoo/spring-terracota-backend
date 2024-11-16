@@ -1,4 +1,4 @@
-package br.com.terracotabackend.config;
+package br.com.terracotabackend.infra.config;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Configuration;
