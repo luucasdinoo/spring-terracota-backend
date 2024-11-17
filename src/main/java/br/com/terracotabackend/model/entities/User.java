@@ -17,6 +17,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
+@Inheritance(strategy = InheritanceType.JOINED)
 @AllArgsConstructor @NoArgsConstructor
 @Getter
 public class User implements Serializable, UserDetails {
@@ -51,15 +52,13 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ROLE_ADMIN)
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
         if(this.role == UserRole.ROLE_CUSTOMER)
             return List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
         if(this.role == UserRole.ROLE_CRAFTSMAN)
             return List.of(new SimpleGrantedAuthority("ROLE_CRAFTSMAN"));
         if(this.role == UserRole.ROLE_COMPANY)
             return List.of(new SimpleGrantedAuthority("ROLE_COMPANY"));
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override
@@ -71,5 +70,4 @@ public class User implements Serializable, UserDetails {
     public String getUsername() {
         return email;
     }
-
 }
