@@ -28,8 +28,8 @@ public class SpringSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/customer").hasRole("ROLE_CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/customer").permitAll()
+                        //.requestMatchers(HttpMethod.POST, "/customer").hasRole("ROLE_CUSTOMER")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -3,11 +3,8 @@ package br.com.terracotabackend.model.entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "address")
@@ -32,14 +29,6 @@ public class Address implements Serializable {
 
     @Column(name = "zip_code", nullable = false)
     private String zipCode;
-
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @LastModifiedBy
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
@@ -89,19 +78,4 @@ public class Address implements Serializable {
         this.zipCode = zipCode;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

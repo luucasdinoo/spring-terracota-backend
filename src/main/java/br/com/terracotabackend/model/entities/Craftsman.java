@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "craftsman")
+@Table(name = "craftsmans")
 @NoArgsConstructor @AllArgsConstructor
 public class Craftsman extends User implements Serializable {
 

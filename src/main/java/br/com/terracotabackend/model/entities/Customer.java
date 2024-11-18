@@ -1,7 +1,7 @@
 package br.com.terracotabackend.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "customer")
-@NoArgsConstructor @AllArgsConstructor
+@Table(name = "customers")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Customer extends User implements Serializable {
 
     @Column(nullable = false)
@@ -34,6 +34,14 @@ public class Customer extends User implements Serializable {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public Customer(String email, String password, UserRole role, String name, String cpf, String contact, Address address){
+        super(email, password, role);
+        this.name = name;
+        this.cpf = cpf;
+        this.contact = contact;
+        this.address = address;
+    }
 
     public String getName() {
         return name;
