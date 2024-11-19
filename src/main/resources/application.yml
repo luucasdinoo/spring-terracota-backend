@@ -5,3 +5,7 @@ spring:
     name: terracota-backend
   jpa:
     open-in-view: false
+
+api:
+  security:
+    secret-token: ${SECRET_TOKEN:my-secret-key}

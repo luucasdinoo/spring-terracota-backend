@@ -1,7 +1,7 @@
 package br.com.terracotabackend.model.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,13 +10,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "customer")
-@NoArgsConstructor @AllArgsConstructor
-public class Customer implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "customers")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Customer extends User implements Serializable {
 
     @Column(nullable = false)
     private String name;
@@ -31,10 +27,6 @@ public class Customer implements Serializable {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User user;
-
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -43,12 +35,12 @@ public class Customer implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Customer(String email, String password, UserRole role, String name, String cpf, String contact, Address address){
+        super(email, password, role);
+        this.name = name;
+        this.cpf = cpf;
+        this.contact = contact;
+        this.address = address;
     }
 
     public String getName() {
@@ -81,14 +73,6 @@ public class Customer implements Serializable {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {
