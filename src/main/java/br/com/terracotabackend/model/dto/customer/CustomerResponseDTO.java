@@ -1,4 +1,4 @@
-package br.com.terracotabackend.model.dto;
+package br.com.terracotabackend.model.dto.customer;
 
 import br.com.terracotabackend.model.entities.Address;
 import br.com.terracotabackend.model.entities.Customer;
