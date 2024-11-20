@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserRepository repository;
     private final TokenService tokenService;
 
     @PostMapping("/login")
@@ -31,15 +30,4 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-//        if (this.repository.findByEmail(data.email()) != null)
-//            return ResponseEntity.badRequest().build();
-//
-//        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-//        User newUser = new User(data.email(), encryptedPassword, data.role());
-//
-//        this.repository.save(newUser);
-//        return ResponseEntity.ok().build();
-//    }
 }

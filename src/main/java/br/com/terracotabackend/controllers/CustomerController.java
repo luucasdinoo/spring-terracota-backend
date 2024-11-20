@@ -39,4 +39,11 @@ public class CustomerController {
         CustomerResponseDTO response = customerService.details(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER') AND #id == authentication.principal.id")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
+        customerService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

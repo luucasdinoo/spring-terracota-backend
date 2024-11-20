@@ -46,9 +46,4 @@ public class CustomerService implements ICustomerService {
                 .orElseThrow( () -> new RuntimeException("Customer not found"));
         customerRepository.delete(customer);
     }
-
-    @Override
-    public void update(Long id, CustomerUpdateDTO data) {
-
-    }
 }
