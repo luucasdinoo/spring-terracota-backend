@@ -35,6 +35,14 @@ public class Company extends User implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public Company(String email, String password, UserRole role, String name, String cpf, String contact, Address address){
+        super(email, password, role);
+        this.name = name;
+        this.cnpj = cpf;
+        this.contact = contact;
+        this.address = address;
+    }
+
     public String getName() {
         return name;
     }
