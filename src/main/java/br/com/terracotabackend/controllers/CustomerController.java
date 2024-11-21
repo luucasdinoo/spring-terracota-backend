@@ -1,7 +1,7 @@
 package br.com.terracotabackend.controllers;
 
-import br.com.terracotabackend.model.dto.CustomerCreateDTO;
-import br.com.terracotabackend.model.dto.CustomerResponseDTO;
+import br.com.terracotabackend.model.dto.customer.CustomerCreateDTO;
+import br.com.terracotabackend.model.dto.customer.CustomerResponseDTO;
 import br.com.terracotabackend.model.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
