@@ -1,7 +1,7 @@
 package br.com.terracotabackend.model.dto.company;
 
 import br.com.terracotabackend.model.entities.Address;
-import br.com.terracotabackend.model.entities.UserRole;
+import br.com.terracotabackend.model.enums.UserRole;
 import jakarta.validation.constraints.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -17,7 +17,7 @@ public class CompanyCreateDTO {
     @Size(min = 6)
     private String password;
 
-    private UserRole role = UserRole.ROLE_COMPANY;
+    private UserRole role;
 
     @NotBlank @Size(min = 3, max = 200)
     private String name;

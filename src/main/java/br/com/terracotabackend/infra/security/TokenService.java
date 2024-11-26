@@ -18,35 +18,35 @@ public class TokenService {
     @Value("${api.security.secret-token}")
     private String secret;
 
-    public String generateToken(User user) {
+    public String generateToken(User user){
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
+
             String token = JWT.create()
-                    .withIssuer("auth-api")
+                    .withIssuer("terracota-api")
                     .withSubject(user.getEmail())
-                    .withClaim("role", user.getRole().getRole())
-                    .withExpiresAt(generationExpirationDate())
+                    .withExpiresAt(this.generateExpirationDate())
                     .sign(algorithm);
             return token;
-        } catch (JWTCreationException exception) {
-            throw new RuntimeException("Error while generating token", exception);
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("Error while authenticating");
         }
     }
 
     public String validateToken(String token){
-        try{
+        try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("auth-api")
+                    .withIssuer("terracota-api")
                     .build()
                     .verify(token)
                     .getSubject();
-        }catch (JWTVerificationException exception){
-            return "";
+        } catch (JWTVerificationException exception) {
+            return null;
         }
     }
 
-    private Instant generationExpirationDate(){
+    private Instant generateExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 }
