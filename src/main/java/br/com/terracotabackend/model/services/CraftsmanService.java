@@ -1,5 +1,8 @@
 package br.com.terracotabackend.model.services;
 
+import br.com.terracotabackend.infra.exception.exceptions.AlreadyExistsException;
+import br.com.terracotabackend.infra.exception.exceptions.RequiredObjectIsNullException;
+import br.com.terracotabackend.infra.exception.exceptions.ResourceNotFoundException;
 import br.com.terracotabackend.model.dto.craftsman.CraftsmanCreateDTO;
 import br.com.terracotabackend.model.dto.craftsman.CraftsmanResponseDTO;
 import br.com.terracotabackend.model.entities.Craftsman;
@@ -20,6 +23,12 @@ public class CraftsmanService implements ICraftsmanService {
 
     @Override
     public CraftsmanResponseDTO save(CraftsmanCreateDTO data) {
+        if (data == null)
+            throw new RequiredObjectIsNullException();
+
+        if (craftsmanRepository.findByCpf(data.getCpf()) != null || craftsmanRepository.findByEmail(data.getEmail()) != null)
+            throw new AlreadyExistsException("Craftsman already exists");
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
         Craftsman craftsman = new Craftsman(data.getEmail(), encryptedPassword, data.getRole(), data.getName(), data.getCpf(), data.getContact(), data.getAddress());
         Craftsman savedCraftsman = craftsmanRepository.save(craftsman);
@@ -36,14 +45,14 @@ public class CraftsmanService implements ICraftsmanService {
     @Override
     public CraftsmanResponseDTO details(Long id) {
         Craftsman craftsman = craftsmanRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Craftsman not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Craftsman not found"));
         return new CraftsmanResponseDTO(craftsman);
     }
 
     @Override
     public void delete(Long id) {
         Craftsman craftsman = craftsmanRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Craftsman not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Craftsman not found"));
         craftsmanRepository.delete(craftsman);
     }
 }

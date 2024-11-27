@@ -1,5 +1,6 @@
 package br.com.terracotabackend.model.services;
 
+import br.com.terracotabackend.infra.exception.exceptions.ResourceNotFoundException;
 import br.com.terracotabackend.model.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ public class AuthorizationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return repository.findByEmail(username).orElseThrow();
+        return repository.findByEmail(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
