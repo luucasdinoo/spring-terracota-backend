@@ -1,8 +1,8 @@
 package br.com.terracotabackend.controllers;
 
-import br.com.terracotabackend.model.dto.craftsman.CraftsmanCreateDTO;
-import br.com.terracotabackend.model.dto.craftsman.CraftsmanResponseDTO;
-import br.com.terracotabackend.model.services.CraftsmanService;
+import br.com.terracotabackend.model.dto.users.craftsman.CraftsmanCreateDTO;
+import br.com.terracotabackend.model.dto.users.craftsman.CraftsmanResponseDTO;
+import br.com.terracotabackend.model.services.users.CraftsmanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

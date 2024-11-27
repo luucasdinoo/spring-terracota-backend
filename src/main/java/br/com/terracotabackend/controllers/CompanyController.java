@@ -1,8 +1,8 @@
 package br.com.terracotabackend.controllers;
 
-import br.com.terracotabackend.model.dto.company.CompanyCreateDTO;
-import br.com.terracotabackend.model.dto.company.CompanyResponseDTO;
-import br.com.terracotabackend.model.services.CompanyService;
+import br.com.terracotabackend.model.dto.users.company.CompanyCreateDTO;
+import br.com.terracotabackend.model.dto.users.company.CompanyResponseDTO;
+import br.com.terracotabackend.model.services.users.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

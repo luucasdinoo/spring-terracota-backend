@@ -1,9 +1,9 @@
 package br.com.terracotabackend.controllers;
 
 import br.com.terracotabackend.infra.security.TokenService;
-import br.com.terracotabackend.model.dto.AuthenticationDTO;
-import br.com.terracotabackend.model.dto.LoginResponseDTO;
-import br.com.terracotabackend.model.entities.User;
+import br.com.terracotabackend.model.dto.users.AuthenticationDTO;
+import br.com.terracotabackend.model.dto.users.LoginResponseDTO;
+import br.com.terracotabackend.model.entities.users.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

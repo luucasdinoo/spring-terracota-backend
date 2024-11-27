@@ -1,7 +1,7 @@
 package br.com.terracotabackend.infra.security;
 
-import br.com.terracotabackend.model.entities.User;
-import br.com.terracotabackend.model.repositories.UserRepository;
+import br.com.terracotabackend.model.entities.users.User;
+import br.com.terracotabackend.model.repositories.users.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
