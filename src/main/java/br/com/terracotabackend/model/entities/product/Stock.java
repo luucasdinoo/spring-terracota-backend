@@ -1,6 +1,7 @@
 package br.com.terracotabackend.model.entities.product;
 
 import br.com.terracotabackend.model.entities.users.Craftsman;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -18,14 +19,29 @@ public class Stock implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "stock")
+    @OneToOne()
+    @JoinColumn(name = "craftsman_id")
+    @JsonIgnore
     private Craftsman craftsman;
 
-    @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Product> products;
 
     public Stock(Craftsman craftsman) {
         this.craftsman = craftsman;
         this.products = new ArrayList<>();
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Craftsman getCraftsman() {
+        return craftsman;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
 }

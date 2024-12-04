@@ -36,6 +36,7 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/customer").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/craftsman").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/company").permitAll()
+                        .requestMatchers("/api/v1/product/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

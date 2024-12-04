@@ -1,4 +1,4 @@
-package br.com.terracotabackend.controllers;
+package br.com.terracotabackend.controllers.users;
 
 import br.com.terracotabackend.model.dto.users.craftsman.CraftsmanCreateDTO;
 import br.com.terracotabackend.model.dto.users.craftsman.CraftsmanResponseDTO;

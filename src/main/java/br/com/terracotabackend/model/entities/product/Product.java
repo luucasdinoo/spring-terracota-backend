@@ -37,18 +37,14 @@ public class Product implements Serializable {
     @JoinColumn(name = "craftsman_id", nullable = false)
     private Craftsman craftsman;
 
-    @ManyToOne
-    @JoinColumn(name = "stock_id", nullable = false)
-    private Stock stock;
-
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Product(String name, BigDecimal price, Long quantity, String description, TypeProduct type) {
+    public Product(String name, BigDecimal price, String description, TypeProduct type) {
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
+        this.quantity = 0L;
         this.description = description;
         this.type = type;
     }
@@ -107,14 +103,6 @@ public class Product implements Serializable {
 
     public void setCraftsman(Craftsman craftsman) {
         this.craftsman = craftsman;
-    }
-
-    public Stock getStock() {
-        return stock;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
     }
 
     public LocalDateTime getCreatedAt() {

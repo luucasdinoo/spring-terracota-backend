@@ -1,4 +1,4 @@
-package br.com.terracotabackend.controllers;
+package br.com.terracotabackend.controllers.users;
 
 import br.com.terracotabackend.model.dto.users.company.CompanyCreateDTO;
 import br.com.terracotabackend.model.dto.users.company.CompanyResponseDTO;
