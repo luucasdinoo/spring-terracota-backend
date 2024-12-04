@@ -1,11 +1,12 @@
 package br.com.terracotabackend.model.dto.product;
 
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
-public class AddToStockDTO {
+public class AddRemoveToStockDTO {
 
     @Positive
     private Long productId;
@@ -15,4 +16,7 @@ public class AddToStockDTO {
 
     @Positive
     private Long stockId;
+
+    @Pattern(regexp = "ADD|REMOVE")
+    public String operation;
 }

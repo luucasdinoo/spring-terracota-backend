@@ -25,6 +25,7 @@ public class Stock implements Serializable {
     private Craftsman craftsman;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Product> products;
 
     public Stock(Craftsman craftsman) {

@@ -1,7 +1,7 @@
 package br.com.terracotabackend.model.services.product;
 
 import br.com.terracotabackend.infra.exception.exceptions.ResourceNotFoundException;
-import br.com.terracotabackend.model.dto.product.AddToStockDTO;
+import br.com.terracotabackend.model.dto.product.AddRemoveToStockDTO;
 import br.com.terracotabackend.model.dto.product.ProductCreateDTO;
 import br.com.terracotabackend.model.dto.product.ProductResponseDTO;
 import br.com.terracotabackend.model.entities.product.Product;
@@ -58,7 +58,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void addProductToStock(AddToStockDTO dto) {
+    public void addProductToStock(AddRemoveToStockDTO dto) {
         Stock stock = stockRepository.findById(dto.getStockId())
                 .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
 
@@ -70,11 +70,39 @@ public class ProductService implements IProductService {
         for (Product p : products) {
             if (p.getId().equals(product.getId())) {
                 p.setQuantity(p.getQuantity() + dto.getQuantity());
+                stockRepository.save(stock);
                 return;
             }
         }
 
         stock.getProducts().add(product);
+        product.setQuantity(product.getQuantity() + dto.getQuantity());
+        productRepository.save(product);
         stockRepository.save(stock);
     }
+
+    @Override
+    public void removeProductToStock(AddRemoveToStockDTO dto) {
+        Stock stock = stockRepository.findById(dto.getStockId())
+                .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
+
+        Product product = productRepository.findById(dto.getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        List<Product> products = stock.getProducts();
+
+        for (Product p : products) {
+            if (p.getId().equals(product.getId())) {
+                p.setQuantity(p.getQuantity() - dto.getQuantity());
+                stockRepository.save(stock);
+                return;
+            }
+        }
+
+        stock.getProducts().add(product);
+        product.setQuantity(product.getQuantity() + dto.getQuantity());
+        productRepository.save(product);
+        stockRepository.save(stock);
+    }
+
 }
