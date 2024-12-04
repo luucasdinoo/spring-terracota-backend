@@ -1,6 +1,6 @@
 package br.com.terracotabackend.infra.security;
 
-import br.com.terracotabackend.model.entities.User;
+import br.com.terracotabackend.model.entities.users.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
