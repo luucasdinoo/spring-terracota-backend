@@ -1,7 +1,6 @@
 package br.com.terracotabackend.model.dto.product;
 
 import br.com.terracotabackend.model.dto.users.craftsman.CraftsmanResponseDTO;
-import br.com.terracotabackend.model.entities.product.Product;
 import br.com.terracotabackend.model.entities.product.Stock;
 import lombok.Data;
 

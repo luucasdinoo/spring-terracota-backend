@@ -6,7 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 @Data
-public class AddRemoveToStockDTO {
+public class AddRemoveDTO {
 
     @Positive
     private Long productId;
@@ -15,7 +15,7 @@ public class AddRemoveToStockDTO {
     private Long quantity;
 
     @Positive
-    private Long stockId;
+    private Long stockOrCartId;
 
     @Pattern(regexp = "ADD|REMOVE")
     public String operation;

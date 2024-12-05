@@ -1,6 +1,6 @@
 package br.com.terracotabackend.controllers.product;
 
-import br.com.terracotabackend.model.dto.product.AddRemoveToStockDTO;
+import br.com.terracotabackend.model.dto.product.AddRemoveDTO;
 import br.com.terracotabackend.model.dto.product.ProductCreateDTO;
 import br.com.terracotabackend.model.dto.product.ProductResponseDTO;
 import br.com.terracotabackend.model.services.product.ProductService;
@@ -50,7 +50,7 @@ public class ProductController {
 
     @PostMapping("/stock")
     @PreAuthorize("hasRole('ROLE_CRAFTSMAN')")
-    public ResponseEntity<Void> addToStock(@RequestBody AddRemoveToStockDTO dto){
+    public ResponseEntity<Void> addRemoveToStock(@RequestBody AddRemoveDTO dto){
         if ("add".equalsIgnoreCase(dto.getOperation())) {
             productService.addProductToStock(dto);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -61,4 +61,20 @@ public class ProductController {
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    @PostMapping("/cart")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    public ResponseEntity<Void> addRemoveToCart(@RequestBody AddRemoveDTO dto){
+        if ("add".equalsIgnoreCase(dto.getOperation())) {
+            productService.addProductToCart(dto);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
+        if ("remove".equalsIgnoreCase(dto.getOperation())) {
+            productService.removeProductToCart(dto);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
 }
