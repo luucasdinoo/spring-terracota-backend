@@ -28,14 +28,14 @@ public class ProductController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_CRAFTSMAN', 'ROLE_COMPANY')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<ProductResponseDTO>> list(){
         List<ProductResponseDTO> response = productService.list();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_CRAFTSMAN', 'ROLE_COMPANY')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ProductResponseDTO> findById(@PathVariable Long id){
         ProductResponseDTO response = productService.details(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
