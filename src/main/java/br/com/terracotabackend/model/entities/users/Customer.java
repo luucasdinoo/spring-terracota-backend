@@ -1,5 +1,6 @@
 package br.com.terracotabackend.model.entities.users;
 
+import br.com.terracotabackend.model.entities.product.Cart;
 import br.com.terracotabackend.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,6 +25,10 @@ public class Customer extends User implements Serializable {
 
     @Column(nullable = false)
     private String contact;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
 
     @CreatedDate
     @Column(name = "created_at")
@@ -60,6 +65,13 @@ public class Customer extends User implements Serializable {
         this.contact = contact;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -68,5 +80,4 @@ public class Customer extends User implements Serializable {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
 }
