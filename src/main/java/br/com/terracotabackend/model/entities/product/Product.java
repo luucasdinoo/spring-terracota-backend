@@ -2,6 +2,7 @@ package br.com.terracotabackend.model.entities.product;
 
 import br.com.terracotabackend.model.entities.users.Craftsman;
 import br.com.terracotabackend.model.enums.TypeProduct;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,6 @@ public class Product implements Serializable {
 
     private BigDecimal price;
 
-    private Long quantity;
-
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -35,6 +34,7 @@ public class Product implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "craftsman_id", nullable = false)
+    @JsonIgnore
     private Craftsman craftsman;
 
     @CreatedDate
@@ -44,7 +44,6 @@ public class Product implements Serializable {
     public Product(String name, BigDecimal price, String description, TypeProduct type) {
         this.name = name;
         this.price = price;
-        this.quantity = 0L;
         this.description = description;
         this.type = type;
     }
@@ -53,7 +52,6 @@ public class Product implements Serializable {
         this.id = product.getId();
         this.name = product.getName();
         this.price = product.getPrice();
-        this.quantity = product.getQuantity();
         this.description = product.getDescription();
         this.type = product.getType();
         this.craftsman = product.getCraftsman();
@@ -84,13 +82,6 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
 
     public String getDescription() {
         return description;

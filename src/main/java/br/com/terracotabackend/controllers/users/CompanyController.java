@@ -41,7 +41,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_COMPANY')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
         companyService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
