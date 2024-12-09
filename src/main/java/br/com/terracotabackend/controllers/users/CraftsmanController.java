@@ -41,7 +41,7 @@ public class CraftsmanController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_CRAFTSMAN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCraftsman(@PathVariable Long id){
         craftsmanService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -5,6 +5,7 @@ import br.com.terracotabackend.model.dto.product.AddRemoveDTO;
 import br.com.terracotabackend.model.dto.product.ProductCreateDTO;
 import br.com.terracotabackend.model.dto.product.ProductResponseDTO;
 import br.com.terracotabackend.model.entities.product.Cart;
+import br.com.terracotabackend.model.entities.product.CartItem;
 import br.com.terracotabackend.model.entities.product.Product;
 import br.com.terracotabackend.model.entities.product.Stock;
 import br.com.terracotabackend.model.entities.users.Craftsman;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -62,102 +64,66 @@ public class ProductService implements IProductService {
 
     @Override
     public void addProductToStock(AddRemoveDTO dto) {
-        Stock stock = stockRepository.findById(dto.getStockOrCartId())
-                .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
 
-        Product product = productRepository.findById(dto.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
-
-        List<Product> products = stock.getProducts();
-
-        for (Product p : products) {
-            if (p.getId().equals(product.getId())) {
-                p.setQuantity(p.getQuantity() + dto.getQuantity());
-                stockRepository.save(stock);
-                return;
-            }
-        }
-
-        stock.getProducts().add(product);
-        product.setQuantity(product.getQuantity() + dto.getQuantity());
-        productRepository.save(product);
-        stockRepository.save(stock);
     }
 
     @Override
     public void removeProductToStock(AddRemoveDTO dto) {
-        Stock stock = stockRepository.findById(dto.getStockOrCartId())
-                .orElseThrow(() -> new ResourceNotFoundException("Stock not found"));
 
-        Product product = productRepository.findById(dto.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
-
-        List<Product> products = stock.getProducts();
-
-        for (Product p : products) {
-            if (p.getId().equals(product.getId())) {
-                p.setQuantity(p.getQuantity() - dto.getQuantity());
-                stockRepository.save(stock);
-                return;
-            }
-        }
-
-        stock.getProducts().add(product);
-        product.setQuantity(product.getQuantity() + dto.getQuantity());
-        productRepository.save(product);
-        stockRepository.save(stock);
     }
 
     @Override
     public void addProductToCart(AddRemoveDTO dto) {
+
         Cart cart = cartRepository.findById(dto.getStockOrCartId())
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        List<Product> products = cart.getProducts();
+        Optional<CartItem> existingCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getId().equals(product.getId()))
+                .findFirst();
 
-        boolean productExists = false;
-        for (Product p : products) {
-            if (p.getId().equals(product.getId())) {
-                p.setQuantity(p.getQuantity() + dto.getQuantity());
-                productExists = true;
-                break;
-            }
+        if (existingCartItem.isPresent()) {
+            CartItem cartItem = existingCartItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + dto.getQuantity());
+        } else {
+            CartItem newCartItem = new CartItem();
+            newCartItem.setCart(cart);
+            newCartItem.setProduct(product);
+            newCartItem.setQuantity(dto.getQuantity());
+            cart.getCartItems().add(newCartItem);
         }
 
-        if (!productExists) {
-            Product productCart = new Product(product);
-            productCart.setQuantity(dto.getQuantity());
-            products.add(productCart);
-        }
-
-        cart.setProducts(products);
         cartRepository.save(cart);
     }
 
     @Override
     public void removeProductToCart(AddRemoveDTO dto) {
+
         Cart cart = cartRepository.findById(dto.getStockOrCartId())
                 .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
         Product product = productRepository.findById(dto.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        List<Product> productsList = cart.getProducts();
+        Optional<CartItem> existingCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getId().equals(product.getId()))
+                .findFirst();
 
-        for (Product p : productsList) {
-            if (p.getId().equals(product.getId())) {
-                p.setQuantity(p.getQuantity() - dto.getQuantity());
+        if (existingCartItem.isPresent()) {
+            CartItem cartItem = existingCartItem.get();
 
-                if (p.getQuantity() <= 0) {
-                    productsList.remove(p);
-                    break;
-                }
+            cartItem.setQuantity(cartItem.getQuantity() - dto.getQuantity());
+
+            if (cartItem.getQuantity() <= 0) {
+                cart.getCartItems().remove(cartItem);
             }
+
+            cartRepository.save(cart);
+        } else {
+            throw new ResourceNotFoundException("Product not found in cart");
         }
-        cart.setProducts(productsList);
-        cartRepository.save(cart);
     }
 }
