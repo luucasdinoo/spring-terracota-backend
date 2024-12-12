@@ -26,18 +26,20 @@ public class SpringSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .formLogin(login -> login.disable())
-                .httpBasic(basic -> basic.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable())  // Desabilita o CSRF
+                .formLogin(login -> login.disable())  // Desabilita o login via formulário
+                .httpBasic(basic -> basic.disable())  // Desabilita o HTTP Basic
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // Configura o uso de JWT sem manter sessão
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "/api/v1/admin").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "api/v1/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/admin").permitAll()  // Permite acesso sem autenticação
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()  // Permite login sem autenticação
                         .requestMatchers(HttpMethod.POST, "/api/v1/customer").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/craftsman").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/v1/company").permitAll()
-                        .anyRequest().authenticated())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                        .anyRequest().authenticated())  // Requer autenticação para qualquer outra rota
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)  // Adiciona o filtro de segurança
+                .cors()  // Habilita o CORS
+                .and()
                 .build();
     }
 
