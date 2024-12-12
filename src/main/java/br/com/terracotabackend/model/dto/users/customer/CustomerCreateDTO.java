@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Data @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CustomerCreateDTO {
+public class    CustomerCreateDTO {
 
     @NotBlank @Email(message = "Invalid E-mail")
     private String email;
